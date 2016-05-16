@@ -19,6 +19,15 @@ var Form = {
 		elem.val(val).trigger("change");
 	},
 
+	dateAutofill : function(elem, date){
+		elem.datepicker({
+			format : "dd/mm/yyyy",
+			autoclose: true,
+			startDate : date,
+			forceParse : false
+		});
+	},
+
 	//daterangepicker autofill
 	daterangeAutofill : function(elem, startDate, endDate){
 
@@ -38,6 +47,17 @@ var Form = {
 		});
 
 		elem.val(startDate + " - " +  endDate);
+	},
+
+
+	//Switch date format from French style to American style. EX : 20/04/2016 to 04/20/2016
+	dateFr2Us : function(date){
+		if(date == null) return;
+		
+		var d = date.split('/');
+		var res = d[1] + '/' + d[0] + '/' + d[2];
+
+		return res;
 	},
 
 	//Natively unchecked checkbox does not return any value
