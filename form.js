@@ -73,5 +73,26 @@ var Form = {
 		}else{
 			$this.val(trueVal);	
 		} 
+	},
+
+	formSerializeArray : function(formElem){
+		var res;
+	
+		res = formElem.serializeArray().reduce(function(obj, item) {
+		    obj[item.name] = item.value;
+		    
+			return obj;
+		}, {});
+
+		//jQuery.formSerializeArray does not support checkbox serializing
+		var checkBoxSerialized = formElem.find('input:checkbox').map(function() {
+			return { name: this.name, value: this.checked ? '1' : '0' };
+		});
+
+		$.each(checkBoxSerialized, function(i){
+			res[checkBoxSerialized[i]['name']] = checkBoxSerialized[i]['value'];
+		});
+
+		return res;
 	}
 }
