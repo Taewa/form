@@ -77,12 +77,24 @@ var Form = {
 
 	formSerializeArray : function(formElem){
 		var res;
-	
-		res = formElem.serializeArray().reduce(function(obj, item) {
-		    obj[item.name] = item.value;
-		    
-			return obj;
-		}, {});
+
+		//In case formElem is 'form'
+		if(formElem.is('form')){
+			res = formElem.serializeArray().reduce(function(obj, item) {
+			    obj[item.name] = item.value;
+				return obj;
+			}, {});
+		}else{	//Other elements
+			d = formElem.find(':input').serializeArray();
+		
+			res = {};
+			
+			$.each(d, function(i){
+				var item = d[i];
+				res[item.name] = item.value;
+			});
+		}
+
 
 		//jQuery.formSerializeArray does not support checkbox serializing
 		var checkBoxSerialized = formElem.find('input:checkbox').map(function() {
