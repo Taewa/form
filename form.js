@@ -75,8 +75,13 @@ var Form = {
 		} 
 	},
 
-	formSerializeArray : function(formElem){
+	//Return form data json.
+	//Adjust checkbox value using parameter 'valObj'
+	formSerializeArray : function(formElem, valObj){
 		var res;
+		var valObj = valObj || {};
+		var checkedVal = valObj.checkVal != undefined ? valObj.checkVal : '1';
+		var uncheckedVal = valObj.uncheckVal != undefined? valObj.uncheckedVal : '0';
 
 		//In case formElem is 'form'
 		if(formElem.is('form')){
@@ -95,16 +100,37 @@ var Form = {
 			});
 		}
 
-
 		//jQuery.formSerializeArray does not support checkbox serializing
 		var checkBoxSerialized = formElem.find('input:checkbox').map(function() {
-			return { name: this.name, value: this.checked ? '1' : '0' };
+			var val = this.checked ? checkedVal : uncheckedVal;
+			
+			return { name: this.name, value: val};
 		});
+		
 
 		$.each(checkBoxSerialized, function(i){
 			res[checkBoxSerialized[i]['name']] = checkBoxSerialized[i]['value'];
 		});
 
 		return res;
+	},
+
+	//Dependency : bootstrap-validator < https://github.com/1000hz/bootstrap-validator >
+	//Bootstrap-validator v0.10.2 does not support 'at least one checkbox required' validation.
+	//There is some way here < https://github.com/1000hz/bootstrap-validator/issues/201#issuecomment-226559874 >
+	//But I don't want to use non-master version.
+	checkboxValidator : function(group, form, goal, time){
+		var isChecked = false;
+		var goal = goal || 1;	//Default at least one checkbox
+		var time = time || 500;
+
+		setTimeout(function(){
+			if(group.filter(':checked').length >= goal){
+				isChecked = true;
+			}
+
+			group.not(':checked').prop('required', !isChecked);
+			form.validator('destroy').validator();
+		}, time);
 	}
 }
