@@ -60,6 +60,16 @@ var Form = {
 		return res;
 	},
 
+	//Switch date format from French style to MySqul defaul format. EX : 20/04/2016 to 2016/04/20
+	dateMysql : function(date){
+		if(date == null || date == undefined || date == '') return;
+		
+		var d = date.split('/');
+		var res = d[2] + '-' + d[1] + '-' + d[0];
+		
+		return res;
+	},
+
 	//Natively unchecked checkbox does not return any value
 	//if you want to return a value when checkbox is unchecked (on form submit)
 	//use this method
