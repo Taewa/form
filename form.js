@@ -60,12 +60,22 @@ var Form = {
 		return res;
 	},
 
-	//Switch date format from French style to MySqul defaul format. EX : 20/04/2016 to 2016/04/20
+	//Switch date format from French style to MySqul default format. EX : 20/04/2016 to 2016-04-20
 	dateMysql : function(date){
 		if(date == null || date == undefined || date == '') return;
 		
 		var d = date.split('/');
 		var res = d[2] + '-' + d[1] + '-' + d[0];
+		
+		return res;
+	},
+
+	//Switch date format from MySqul style to French style format. EX : 2016-04-20 to 20/04/2016 
+	dateUnMysql : function(date){
+		if(date == null || date == undefined || date == '') return;
+		
+		var d = date.split('-');
+		var res = d[2] + '/' + d[1] + '/' + d[0];
 		
 		return res;
 	},
@@ -110,10 +120,11 @@ var Form = {
 			});
 		}
 
+
 		//jQuery.formSerializeArray does not support checkbox serializing
 		var checkBoxSerialized = formElem.find('input:checkbox').map(function() {
 			var val = this.checked ? checkedVal : uncheckedVal;
-			
+
 			return { name: this.name, value: val};
 		});
 		
