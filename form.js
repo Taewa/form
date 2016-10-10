@@ -95,6 +95,20 @@ var Form = {
 		} 
 	},
 
+	//Return checkbox value as string in array (It returns only checked one)
+	//EX : ['check1', 'check4'];
+	checkboxToString : function(target){
+		var res = [];
+		var checkbox = target.find('input[type="checkbox"]').filter(':checked');
+
+		checkbox.each(function(i){
+			var v = $(this).data('val');
+			res.push(v);
+		});
+
+		return res;
+	},
+
 	//Return form data json.
 	//Adjust checkbox value using parameter 'valObj'
 	formSerializeArray : function(formElem, valObj){
