@@ -80,6 +80,21 @@ var Form = {
 		return res;
 	},
 
+	//Switch date AND time format from MySqul style to French style format. EX : 2016-04-25 10:24:48 to 25/04/2016 10:24:48
+	dateAndTimeUnMysql : function(dateAndTime){
+		if(dateAndTime == null || dateAndTime == undefined || dateAndTime == '') return;
+		
+		var res;
+		var arr = dateAndTime.split(' ');
+
+		var d = arr[0].split('-');
+		var date = d[2] + '/' + d[1] + '/' + d[0];
+
+		res = date + ' ' + arr[1];
+
+		return res;
+	},
+
 	//Natively unchecked checkbox does not return any value
 	//if you want to return a value when checkbox is unchecked (on form submit)
 	//use this method
