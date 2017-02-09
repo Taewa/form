@@ -134,8 +134,27 @@ var Form = {
 
 		//In case formElem is 'form'
 		if(formElem.is('form')){
+			
 			res = formElem.serializeArray().reduce(function(obj, item) {
-			    obj[item.name] = item.value;
+
+				if(item.name in obj){	//Check for multiple item. If there is multiple, create an array.
+					var ogirinalVal = obj[item.name];
+					var targetType = obj[item.name] instanceof Array
+
+					if(targetType){	//An array
+						obj[item.name].push(item.value);
+						
+					}else{	//Means it's first
+						obj[item.name] = [];
+						obj[item.name].push(ogirinalVal);
+						obj[item.name].push(item.value);	
+					}
+
+				}else{
+					obj[item.name] = item.value;	
+				}
+
+			    
 				return obj;
 			}, {});
 		}else{	//Other elements
