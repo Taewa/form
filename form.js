@@ -19,6 +19,20 @@ var Form = {
 		elem.val(val).trigger("change");
 	},
 
+	convertSelect2Data : function(d){
+		var id = d.id.length;
+
+		if(id <= 0){
+			return [];
+		} 
+		var arr = new Array();
+
+		for(var i = 0; i < id; i ++){
+			arr.push(d.id[i]);
+		}
+		return arr;
+	},
+
 	dateAutofill : function(elem, date){
 		elem.datepicker({
 			format : "dd/mm/yyyy",
