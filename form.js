@@ -20,6 +20,7 @@ var Form = {
 	},
 
 	convertSelect2Data : function(d){
+		if(d.id == null || d.id == undefined || d.id == '') return [];
 		var id = d.id.length;
 
 		if(id <= 0){
