@@ -109,6 +109,25 @@ var Form = {
 		return res;
 	},
 
+	//This is a recursive method
+	//Find a key that has 'date' string
+	//Then do anything with the value by 'callback' function.
+	objectDateChanger : function(o, callback){
+		var self = this;
+
+	    for(var p in o){
+	    	if(o[p] === null){
+	    		continue;
+	    	}else if(o[p].constructor !== Object){
+	            if(p.toLocaleLowerCase().indexOf('date') != -1){
+	            	callback(o, p);
+	            }
+	        }else{
+	            self.objectDateChanger(o[p], callback);
+	        }
+	    }
+	},
+
 	//Natively unchecked checkbox does not return any value
 	//if you want to return a value when checkbox is unchecked (on form submit)
 	//use this method
